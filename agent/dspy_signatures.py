@@ -22,10 +22,10 @@ class NLToSQLSignature(dspy.Signature):
     question: str = dspy.InputField(desc="Natural language question")
     db_schema: str = dspy.InputField(desc="Database schema with table and column definitions")
     context: str = dspy.InputField(
-        desc="Relevant context from documents (e.g., date ranges, KPI definitions, categories)"
+        desc="Relevant context. CRITICAL: Use SQLite date functions strftime('%Y-%m', OrderDate) NOT MONTH/YEAR which don't exist. Data is from 2012-2023."
     )
     sql: str = dspy.OutputField(
-        desc="Valid SQLite query (no markdown, just SQL. Use [TableName] for reserved words like Order Details)"
+        desc="Valid SQLite query (no markdown). Use [Order Details] brackets, strftime for dates, COALESCE for nulls, CAST for floats, LIMIT not TOP. Data 2012-2023."
     )
 
 

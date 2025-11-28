@@ -35,17 +35,34 @@ def configure_dspy(
     )
 
 
-def validate_answer_format(answer: str, format_hint: str) -> tuple[bool, Any]:
+def validate_answer_format(answer: Any, format_hint: str) -> tuple[bool, Any]:
     """
     Validate that answer matches format_hint.
     
     Args:
-        answer: Generated answer (as string)
+        answer: Generated answer (string or already-typed object)
         format_hint: Expected format ('int', 'float', 'str', or JSON schema)
     
     Returns:
         (is_valid, parsed_value)
     """
+    if answer is None:
+        return False, None
+    
+    # If answer is already the correct type, validate and return
+    if isinstance(answer, int) and format_hint == "int":
+        return True, answer
+    
+    if isinstance(answer, float) and format_hint == "float":
+        return True, round(answer, 2)
+    
+    if isinstance(answer, dict) and format_hint.startswith("{"):
+        return True, answer
+    
+    if isinstance(answer, list) and format_hint.startswith("list["):
+        return True, answer
+    
+    # Otherwise proceed with string parsing
     if not answer:
         return False, None
     

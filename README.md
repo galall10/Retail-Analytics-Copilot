@@ -308,8 +308,6 @@ requests                # HTTP for Ollama
 - [ ] Web API (FastAPI) wrapper for remote access
 - [ ] Execution tracing (log all state transitions)
 
-## License
 
-Internal project — Retail Analytics Team (DSPy 3.0 Edition)
-#   R e t a i l - A n a l y t i c s - C o p i l o t  
+ 
  

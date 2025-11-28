@@ -1,7 +1,3 @@
-"""
-Hybrid agent using DSPy 3.0 with BootstrapFewShot-optimized NL→SQL module.
-"""
-
 import json
 import re
 import os
@@ -330,19 +326,26 @@ Key SQL patterns:
         citations = []
 
         # Build data context
+        route = state.get("route", "")
+        docs = state.get("retrieved_docs", [])
         exec_result = state.get("execution_result")
-        if exec_result and exec_result.get("rows"):
+
+        # For RAG-only path, use retrieved documents as primary data source
+        if route == "rag" and docs:
+            data = "\n\n".join([f"[{d['id']}]\n{d['content']}" for d in docs])
+            for doc in docs:
+                citations.append(doc["id"])
+        # For SQL/HYBRID paths, use execution results
+        elif exec_result and exec_result.get("rows"):
             data = json.dumps(exec_result["rows"][:10], indent=2)
             sql_query = state.get("sql_query", "")
             if sql_query:
                 citations.extend(self._extract_tables(sql_query))
-
-        # Add document citations
-        docs = state.get("retrieved_docs", [])
-        for doc in docs:
-            citations.append(doc["id"])
-
-        citations = list(dict.fromkeys(citations))
+            # Add doc citations for hybrid
+            for doc in docs:
+                citations.append(doc["id"])
+        else:
+            data = "No data available"
 
         try:
             result = self.synthesizer(
@@ -351,6 +354,10 @@ Key SQL patterns:
                 format_hint=format_hint,
             )
             answer = result.answer.strip()
+
+            # FIXED: Convert Python dict/list syntax to JSON syntax
+            if format_hint.startswith("{") or format_hint.startswith("list["):
+                answer = answer.replace("'", '"')
 
             is_valid, parsed_answer = validate_answer_format(answer, format_hint)
 

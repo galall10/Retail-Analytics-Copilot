@@ -100,7 +100,7 @@ retail_agent/
 │   ├── graph_hybrid.py         # 7-node LangGraph state machine
 │   ├── dspy_signatures.py      # DSPy modules (Router, NL→SQL, Synthesizer, etc.)
 │   ├── dspy_config.py          # DSPy/Ollama configuration
-│   ├── database_schema.py      # Complete Northwind schema documentation
+│   ├── database_schema.py      # Northwind schema documentation
 │   ├── rag/
 │   │   └── retrieval.py        # TF-IDF document retriever
 │   └── tools/

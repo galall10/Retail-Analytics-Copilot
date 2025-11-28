@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-11-26T23:43:12.866565",
+  "dspy_version": "3.0.4",
+  "optimizer": "BootstrapFewShot",
+  "module": "NLToSQLSignature",
+  "training_examples": 20,
+  "phases": {},
+  "before": {
+    "type": "dspy.Predict",
+    "quality_score": 0.963,
+    "valid_sql_rate": 1.0
+  },
+  "optimization": {
+    "method": "BootstrapFewShot.compile()",
+    "status": "success",
+    "time_seconds": 30.1,
+    "trainset_size": 5
+  },
+  "after": {
+    "type": "dspy.ChainOfThought",
+    "quality_score": 0.988,
+    "valid_sql_rate": 1.0
+  },
+  "improvement": {
+    "quality": {
+      "absolute": 0.025,
+      "percentage": 2.6
+    },
+    "valid_sql_rate": {
+      "absolute": 0.0,
+      "percentage": 0.0
+    },
+    "status": "\u2248 STABLE"
+  }
+}

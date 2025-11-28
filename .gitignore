@@ -35,7 +35,6 @@ env/
 
 # Project-specific
 data/northwind.sqlite
-outputs_hybrid.jsonl
 trace.jsonl
 *.db
 .DS_Store

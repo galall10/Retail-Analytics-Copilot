@@ -55,7 +55,7 @@ class SimpleHybridAgent:
         if os.path.exists(optimized_path):
             print(f"[*] Loading optimized NL-to-SQL module from {optimized_path}")
             try:
-                self.nl_to_sql = dspy.Predict(NLToSQLSignature)
+                self.nl_to_sql = dspy.ChainOfThought(NLToSQLSignature)
                 self.nl_to_sql.load(optimized_path)
                 print("    [OK] Optimized module loaded successfully")
             except Exception as e:
